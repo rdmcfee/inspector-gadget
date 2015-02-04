@@ -46,7 +46,7 @@ angular.module('swd.inspector-gadget')
           // only allow certain attributes
           if (attrName === 'placement' || attrName === 'animation' ||
               attrName === 'delay' || attrName === 'container' ||
-              attrName === 'viewport') {
+              attrName === 'viewport' || attrName === 'event') {
             bootstrArgs[attrName] = attrValue;
           }
         });
@@ -74,6 +74,11 @@ angular.module('swd.inspector-gadget')
         if (attrs.hasOwnProperty('timeout')) {
           timeout = parseInt(attrs.timeout, 10);
         }
+        
+        var event = 'mouseenter';
+        if (attrs.hasOwnProperty('event')) {
+          event = attrs.event;
+        }
 
         var popControl = null;
 
@@ -98,7 +103,8 @@ angular.module('swd.inspector-gadget')
           popControl.hide();
         };
 
-        anchoredDiv.mouseenter(function() {
+        //anchoredDiv.mouseenter(function() {
+        anchoredDiv[event](function() {
           // trigger hover event, open popover, link btn to modal
           $timeout.cancel(hidePromise);
           if (!isPopOpen(root, myPopoverId)) {
